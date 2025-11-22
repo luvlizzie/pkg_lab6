@@ -1,0 +1,229 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.controls {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group h3 {
+    color: #4a5568;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 5px;
+}
+
+.transform-controls div {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.transform-controls label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.transform-controls input[type="range"] {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+}
+
+.transform-controls span {
+    min-width: 40px;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.projection-controls {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a6fd8;
+}
+
+.canvas-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+#glCanvas {
+    border: 2px solid #e2e8f0;
+    border-radius: 5px;
+    background: #1a202c;
+}
+
+.matrix-info {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#matrixOutput {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .transform-controls div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .projection-controls {
+        flex-direction: column;
+    }
+}
+
+.projection-info {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #667eea;
+}
+
+.projection-info ul {
+    margin: 5px 0;
+    padding-left: 20px;
+}
+
+.projection-info li {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+.coordinate-system {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.coordinate-system div {
+    margin: 2px 0;
+}
+
+
+.viewports {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+#mainView {
+    width: 100%;
+    max-width: 1000px;
+    height: 540px;
+    background: #1a202c;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.projections-row {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.proj-block {
+    text-align: center;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.proj-block p {
+    font-weight: bold;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.proj-block canvas {
+    width: 260px;
+    height: 260px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: #1a202c;
+}
+
+@media (max-width: 900px) {
+    .projections-row {
+        flex-direction: column;
+        align-items: center;
+    }
+}

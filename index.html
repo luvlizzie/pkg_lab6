@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>3D Визуализация буквы K</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>3D Визуализация буквы K</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <h3>Преобразования</h3>
+                <div class="transform-controls">
+                    <div>
+                        <label>Перенос X: <input type="range" id="translateX" min="-2" max="2" step="0.1" value="0"></label>
+                        <span id="translateXValue">0</span>
+                    </div>
+                    <div>
+                        <label>Перенос Y: <input type="range" id="translateY" min="-2" max="2" step="0.1" value="0"></label>
+                        <span id="translateYValue">0</span>
+                    </div>
+                    <div>
+                        <label>Перенос Z: <input type="range" id="translateZ" min="-6" max="2" step="0.1" value="0"></label>
+                        <span id="translateZValue">0</span>
+                    </div>
+                    <div>
+                        <label>Масштаб: <input type="range" id="scale" min="0.1" max="3" step="0.1" value="1"></label>
+                        <span id="scaleValue">1</span>
+                    </div>
+                    <div>
+                        <label>Вращение X: <input type="range" id="rotateX" min="0" max="360" step="1" value="0"></label>
+                        <span id="rotateXValue">0°</span>
+                    </div>
+                    <div>
+                        <label>Вращение Y: <input type="range" id="rotateY" min="0" max="360" step="1" value="0"></label>
+                        <span id="rotateYValue">0°</span>
+                    </div>
+                    <div>
+                        <label>Вращение Z: <input type="range" id="rotateZ" min="0" max="360" step="1" value="0"></label>
+                        <span id="rotateZValue">0°</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Проекции</h3>
+                <div class="projection-controls">
+                    <button id="toggleProjections">Скрыть/Показать проекции</button>
+                    <button id="resetView">Сброс вида</button>
+                </div>
+                <div class="projection-info">
+                    <p><strong>Ортографические проекции:</strong></p>
+                    <ul>
+                        <li><span style="color: yellow">■</span> Oxy (вид сверху)</li>
+                        <li><span style="color: magenta">■</span> Oxz (вид спереди)</li>
+                        <li><span style="color: cyan">■</span> Oyz (вид сбоку)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="viewports">
+            <div class="canvas-container">
+                <canvas id="mainView" width="900" height="540"></canvas>
+            </div>
+
+            <div class="projections-row">
+                <div class="proj-block">
+                    <p>XY (сверху)</p>
+                    <canvas id="viewXY" width="260" height="260"></canvas>
+                </div>
+
+                <div class="proj-block">
+                    <p>XZ (спереди)</p>
+                    <canvas id="viewXZ" width="260" height="260"></canvas>
+                </div>
+
+                <div class="proj-block">
+                    <p>YZ (сбоку)</p>
+                    <canvas id="viewYZ" width="260" height="260"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="matrix-info">
+            <h3>Матрица преобразования (model):</h3>
+            <pre id="matrixOutput">Матрица появится здесь после инициализации</pre>
+        </div>
+    </div>
+
+    <script src="lib/gl-matrix-min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
