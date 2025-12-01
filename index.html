@@ -1,97 +1,140 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>3D Визуализация буквы K</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Визуализация Буквы K</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="lib/plotly.min.js"></script>
+    <script src="lib/math.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>3D Визуализация буквы K</h1>
-        
-        <div class="controls">
-            <div class="control-group">
-                <h3>Преобразования</h3>
-                <div class="transform-controls">
-                    <div>
-                        <label>Перенос X: <input type="range" id="translateX" min="-2" max="2" step="0.1" value="0"></label>
-                        <span id="translateXValue">0</span>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>3D Визуализация Буквы K</h1>
+            <p class="subtitle">Интерактивные аффинные преобразования</p>
+            <div class="header-actions">
+                <button onclick="toggleFullscreen()" class="btn-fullscreen" title="Полноэкранный режим">
+                    <span class="icon">⛶</span> Полный экран
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="control-panel-top">
+                <div class="controls-grid">
+                    <div class="control-group">
+                        <h3><span class="icon">↻</span> Вращение</h3>
+                        <div class="control-row">
+                            <label>X: <span class="value" id="rotXVal">0°</span></label>
+                            <input type="range" id="rotX" min="-180" max="180" value="0" step="1">
+                            <input type="number" id="rotXNum" value="0" class="number-input">
+                        </div>
+                        <div class="control-row">
+                            <label>Y: <span class="value" id="rotYVal">0°</span></label>
+                            <input type="range" id="rotY" min="-180" max="180" value="0" step="1">
+                            <input type="number" id="rotYNum" value="0" class="number-input">
+                        </div>
+                        <div class="control-row">
+                            <label>Z: <span class="value" id="rotZVal">0°</span></label>
+                            <input type="range" id="rotZ" min="-180" max="180" value="0" step="1">
+                            <input type="number" id="rotZNum" value="0" class="number-input">
+                        </div>
                     </div>
-                    <div>
-                        <label>Перенос Y: <input type="range" id="translateY" min="-2" max="2" step="0.1" value="0"></label>
-                        <span id="translateYValue">0</span>
+
+                    <div class="control-group">
+                        <h3><span class="icon">⇄</span> Сдвиг</h3>
+                        <div class="control-row">
+                            <label>X: <span class="value" id="transXVal">0.0</span></label>
+                            <input type="range" id="transX" min="-2" max="2" value="0" step="0.1">
+                            <input type="number" id="transXNum" value="0" step="0.1" class="number-input">
+                        </div>
+                        <div class="control-row">
+                            <label>Y: <span class="value" id="transYVal">0.0</span></label>
+                            <input type="range" id="transY" min="-2" max="2" value="0" step="0.1">
+                            <input type="number" id="transYNum" value="0" step="0.1" class="number-input">
+                        </div>
+                        <div class="control-row">
+                            <label>Z: <span class="value" id="transZVal">0.0</span></label>
+                            <input type="range" id="transZ" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="transZNum" value="0" step="0.1" class="number-input">
+                        </div>
                     </div>
-                    <div>
-                        <label>Перенос Z: <input type="range" id="translateZ" min="-6" max="2" step="0.1" value="0"></label>
-                        <span id="translateZValue">0</span>
-                    </div>
-                    <div>
-                        <label>Масштаб: <input type="range" id="scale" min="0.1" max="3" step="0.1" value="1"></label>
-                        <span id="scaleValue">1</span>
-                    </div>
-                    <div>
-                        <label>Вращение X: <input type="range" id="rotateX" min="0" max="360" step="1" value="0"></label>
-                        <span id="rotateXValue">0°</span>
-                    </div>
-                    <div>
-                        <label>Вращение Y: <input type="range" id="rotateY" min="0" max="360" step="1" value="0"></label>
-                        <span id="rotateYValue">0°</span>
-                    </div>
-                    <div>
-                        <label>Вращение Z: <input type="range" id="rotateZ" min="0" max="360" step="1" value="0"></label>
-                        <span id="rotateZValue">0°</span>
+
+                    <div class="control-group">
+                        <h3><span class="icon">⤢</span> Масштаб</h3>
+                        <div class="control-row full-width">
+                            <label>Масштаб: <span class="value" id="scaleVal">1.0</span></label>
+                            <input type="range" id="scaleSlider" min="0.3" max="2" value="1" step="0.1">
+                            <input type="number" id="scaleNum" value="1" step="0.1" min="0.3" max="2" class="number-input">
+                        </div>
+                        <div class="button-group">
+                            <button onclick="applyScale()" class="apply-btn">Применить</button>
+                            <button onclick="resetView()" class="btn-reset">Сбросить</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <h3>Проекции</h3>
-                <div class="projection-controls">
-                    <button id="toggleProjections">Скрыть/Показать проекции</button>
-                    <button id="resetView">Сброс вида</button>
+            <div class="visualization-area">
+                <div class="plot-section">
+                    <div class="section-header">
+                        <h2><span class="icon">📐</span> 3D Модель Буквы K</h2>
+                        <div class="view-controls">
+                            <button onclick="resetCamera()" class="btn-small"><span class="icon">🎯</span> Сброс камеры</button>
+                        </div>
+                    </div>
+                    <div id="plot3d" class="plot3d-container"></div>
                 </div>
-                <div class="projection-info">
-                    <p><strong>Ортографические проекции:</strong></p>
-                    <ul>
-                        <li><span style="color: yellow">■</span> Oxy (вид сверху)</li>
-                        <li><span style="color: magenta">■</span> Oxz (вид спереди)</li>
-                        <li><span style="color: cyan">■</span> Oyz (вид сбоку)</li>
-                    </ul>
+
+                <div class="projections-section">
+                    <div class="section-header">
+                        <h2><span class="icon">📊</span> Ортографические Проекции</h2>
+                        <div class="projection-controls">
+                            <button onclick="toggleProjections()" class="btn-small" id="toggleProjBtn">
+                                <span class="icon">⬇</span> Свернуть
+                            </button>
+                        </div>
+                    </div>
+                    <div id="projectionsContainer" class="projections-container">
+                        <div class="projections-grid">
+                            <div class="projection-card">
+                                <h3>Вид XY (сверху)</h3>
+                                <div id="projXY" class="proj-plot"></div>
+                            </div>
+                            <div class="projection-card">
+                                <h3>Вид XZ (спереди)</h3>
+                                <div id="projXZ" class="proj-plot"></div>
+                            </div>
+                            <div class="projection-card">
+                                <h3>Вид YZ (сбоку)</h3>
+                                <div id="projYZ" class="proj-plot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="matrix-section">
+                <div class="section-header">
+                    <h2><span class="icon">🔢</span> Матрица Преобразования (4×4)</h2>
+                    <button onclick="copyMatrix()" class="btn-small"><span class="icon">📋</span> Копировать</button>
+                </div>
+                <div class="matrix-container">
+                    <pre id="matrixOutput">1.000  0.000  0.000  0.000
+0.000  1.000  0.000  0.000
+0.000  0.000  1.000  0.000
+0.000  0.000  0.000  1.000</pre>
                 </div>
             </div>
         </div>
 
-        <div class="viewports">
-            <div class="canvas-container">
-                <canvas id="mainView" width="900" height="540"></canvas>
-            </div>
-
-            <div class="projections-row">
-                <div class="proj-block">
-                    <p>XY (сверху)</p>
-                    <canvas id="viewXY" width="260" height="260"></canvas>
-                </div>
-
-                <div class="proj-block">
-                    <p>XZ (спереди)</p>
-                    <canvas id="viewXZ" width="260" height="260"></canvas>
-                </div>
-
-                <div class="proj-block">
-                    <p>YZ (сбоку)</p>
-                    <canvas id="viewYZ" width="260" height="260"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="matrix-info">
-            <h3>Матрица преобразования (model):</h3>
-            <pre id="matrixOutput">Матрица появится здесь после инициализации</pre>
-        </div>
+        <footer class="app-footer">
+            <p>Лабораторная работа №6 • 3D Преобразования • Буква K</p>
+            <p class="footer-note">Используйте слайдеры для интерактивного изменения параметров</p>
+        </footer>
     </div>
 
-    <script src="lib/gl-matrix-min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
